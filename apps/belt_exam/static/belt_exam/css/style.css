@@ -1,0 +1,27 @@
+h3 {
+  color: green;
+}
+
+a, a:visited, a:hover, a:active {
+  color: inherit;
+}
+
+.topcorner{
+    position:absolute;
+    top:10px;
+    right: 10px;
+ }
+
+
+.box{
+  height:400px;
+  width:500px;
+  border:1px solid #ccc;
+  font:16px/26px Georgia, Garamond, Serif;
+  overflow:auto;
+  display: inline-block;
+}
+
+.red{
+  color:red;
+}

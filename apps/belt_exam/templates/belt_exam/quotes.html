@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Welcome</title>
+      {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'belt_exam/css/style.css' %}">
+  </head>
+  <body>
+    <div class='topcorner'>
+      <a href="{% url 'logout'%}">Logout</a>
+    </div>
+
+    <h1>Welcome, {{user.name}}!</h1>
+    <h3>Quotable Quotes</h3>
+    <div class='box'>
+
+      {%for quote in quotes%}
+      <div class='quote'>
+      {%if quote not in user.favorites.all%}
+      <p>{{quote.writer}}: {{quote.content}}</p>
+      Posted by <a href='users/{{quote.submitter.id}}'>{{quote.submitter.alias}}</a>
+      <form action='/add_favorite/{{quote.id}}' method='post'>
+        {% csrf_token %}
+        <input type="submit" value="Add to My List">
+      </form>
+        {%endif%}
+        {%if quote not in user.favorites.all and quote.submitter.id == user.id%}
+        <form action='/delete/{{quote.id}}' method='post'>
+          {% csrf_token %}
+          <input type="submit" value="Delete">
+        </form>
+          {%endif%}
+        </div>
+      {%endfor%}
+    </div>
+
+    <div style=float:right;margin-top:-60px; >
+      <h3>Your Favorites</h3 >
+    <div class='box'>
+
+      {%for quote in user.favorites.all%}
+      <div class='quote'>
+      <p>{{quote.writer}}: {{quote.content}}</p>
+
+      <p> Posted by <a href='users/{{quote.submitter.id}}'>{{quote.submitter.alias}}</a>
+        <form action='/remove_favorite/{{quote.id}}' method='post'>
+          {% csrf_token %}
+          <input type="submit" value="Remove From My List">
+        </form>
+        {%if quote in user.favorites.all and quote.submitter.id == user.id%}
+        <form action='/delete/{{quote.id}}' method='post'>
+          {% csrf_token %}
+          <input type="submit" value="Delete">
+        </form>
+          {%endif%}
+        </div>
+      {%endfor%}
+    </div>
+    </div>
+
+    {%if messages %}
+    {% for msg in messages %}
+      <p class='red'>{{ msg }}</p>
+    {% endfor %}
+    {% endif %}
+
+    <h3>Contribute a quote:</h3>
+    <form action="/create_quote" method='post'>
+      {% csrf_token %}
+      <label>Quoted by:</label>
+      <input type='text' name='writer'>
+      <p></p>
+      <label>Message:</label>
+      <textarea name='content' rows="10" cols='40'></textarea>
+      <p></p>
+      <input type='submit' value='Submit'>
+    </form>
+
+
+  </body>
+</html>

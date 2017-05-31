@@ -1,0 +1,54 @@
+<html>
+<head>
+    <title>Welcome!</title>
+
+    {% load staticfiles %}
+  <link rel="stylesheet" href="{% static 'belt_exam/css/style.css' %}">
+</head>
+<body>
+  <h2>Register</h2>
+    <form action="/register" method='post'>
+      {% csrf_token %}
+      <label>First Name:</label>
+      <input type='text' name='name'>
+      <p></p>
+      <label>Alias:</label>
+      <input type='text' name='alias'>
+      <p></p>
+      <label>Email:</label>
+      <input type='email' name='email'>
+      <p></p>
+      <label>Password:</label>
+      <input type='password' name='password'>
+      <p></p>
+      <label>Confirm Password:</label>
+      <input type='password' name='password_confirmation'>
+      <p></p>
+      <label>Date of Birth:</label>
+      <input type='date' name='birthdate'>
+      <p></p>
+      <input type='submit' value='Register'>
+  </form>
+
+  {%if messages %}
+  {% for msg in messages %}
+    <p class='red'>{{ msg }}</p>
+  {% endfor %}
+  {% endif %}
+
+    <h1>Login</h1>
+
+    <form action="/login" method="post">
+      {% csrf_token %}
+        <label>Email: </label>
+        <input type="text" name="email" />
+        <p></p>
+        <label>Password: </label>
+        <input type="password" name="password" />
+        <p></p>
+        <input type="submit" value="Login" />
+    </form>
+
+
+</body>
+</html>
